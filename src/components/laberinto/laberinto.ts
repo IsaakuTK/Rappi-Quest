@@ -1,72 +1,84 @@
-let sizec=500; 
+let tcanvas = 500;
+let t = 10;
+let ncel = tcanvas/t;
 
-let sizecharacter=50;
-let nucel = sizec/sizecharacter
-let initialX=0;
-let initialY=0;
+let posx = 0;
+let posy = 0;
 
-
-let laberinto;
-
+let laberinto = [];
 
 function setup() {
-  createCanvas(sizec, sizec);
+  createCanvas(tcanvas, tcanvas);
   noStroke();
   
-    laberinto = [];
-  for (let x=0;x<nucel;x++) {
-    laberinto[x] = [];
-    for (let y=0;y<nucel;y++) {
-      laberinto[x][y] = Math.floor(Math.random() * 2);
+  //array
+  for(let x=0; x<ncel; x++){
+    laberinto[x]=[];
+    for(let y=0; y<ncel; y++){
+      laberinto[x][y] = 0;
     }
   }
+  
+  //definir lab
+  for(let x=0; x<ncel; x+=2){
+    for(let y=0; y<ncel; y+=2){
+      laberinto[x][y] = 1;
+      let vecinos = [];
+      if(x<ncel){
+        vecinos.push({x:x+1,y:y})
+      }
+      if(y<ncel){
+        vecinos.push({x:x,y:y+1})
+      }
+      if(vecinos.length>0){
+        let ve = vecinos[int(random(2))];
+        laberinto[ve.x][ve.y] = 1;
+      }
+    }
+  }
+  
 }
+
 
 function draw() {
-  background(255);
-  
+  background(220);
   //laberinto
-  for(let x=0; x<nucel; x++){
-    for(let y=0; y<nucel; y++){
+  for(let x=0; x<ncel; x++){
+    for(let y=0; y<ncel; y++){
       if(laberinto[x][y]==0){
-        fill(0)
+        fill(0);
       }else if(laberinto[x][y]==1){
-        fill(255,243,221)
+        fill(255,243,221);
       }
-      rect(x*sizecharacter, y*sizecharacter, sizecharacter, sizecharacter);
-    }   
+      rect(x*t, y*t, t, t);
+    }
   }
   
-  //personaje
-  fill(255,128,0)
-  rect (initialX,initialY, sizecharacter, sizecharacter);
-  
+  //player
+  fill(255,75,61);
+  rect(posx * t, posy * t, t, t);
 }
 
+
 function keyPressed(){
-  if(key === 'w' || key === 'W' || keyCode == UP_ARROW && initialY > 0){
-    if (laberinto[initialX][initialY-1] != 0) {
-      console.table(laberinto[initialX][initialY-1]);
-      initialY -= sizecharacter;
+  if((key === 'a' || key === 'A' || keyCode == LEFT_ARROW) && posx > 0){
+    if(laberinto[posx-1][posy] != 0){
+      posx -= 1;
     }
   }
-  else if(key === 's' || key === 'S' || keyCode == DOWN_ARROW && initialY < nucel-1){
-    if (laberinto[initialX][initialY+1] != 0) {
-      console.table(laberinto[initialX][initialY+1]);
-      initialY += sizecharacter;
+  if((key === 'd' || key === 'D' || keyCode == RIGHT_ARROW) && posx < tcanvas-t){
+    if(laberinto[posx+1][posy] != 0){
+      posx += 1;
     }
   }
-  else if(key === 'a' || key === 'A' || keyCode == LEFT_ARROW && initialX > 0){
-    if (laberinto[initialX-1][initialY] != 0) {
-      console.table(laberinto[initialX-1][initialY]);
-      initialX -= sizecharacter;
+  if((key === 'w' || key === 'W' || keyCode == UP_ARROW) && posy > 0){
+    if(laberinto[posx][posy-1] != 0){
+      posy -= 1;
     }
-    
   }
-  else if(key === 'd' || key === 'D' || keyCode == RIGHT_ARROW && initialY < nucel-1){
-    if (laberinto[initialX+1][initialY] != 0) {
-      console.table(laberinto[initialX+1][initialY]);
-      initialX += sizecharacter;
+  if((key === 's' || key === 'S' || keyCode == DOWN_ARROW) && posy < tcanvas-t){
+    if(laberinto[posx][posy+1] != 0){
+      posy += 1;
     }
   }
 }
