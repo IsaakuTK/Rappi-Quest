@@ -1,20 +1,28 @@
+let timer = 15
+
 let tcanvas = 500;
 let t = 10;
 let ncel = tcanvas/t;
 
 let posx = 0;
-let posy = 0;
+let posy = ncel - 2;
 
 let laberinto = [];
 
+
+let metax;
+let metay;
+
+let move = true;
+
 function setup() {
-  createCanvas(tcanvas, tcanvas);
+  createCanvas(tcanvas, tcanvas+100);
   noStroke();
   
   //array
-  for(let x=0; x<ncel; x++){
-    laberinto[x]=[];
-    for(let y=0; y<ncel; y++){
+  for (let x = 0; x < ncel; x++) {
+    laberinto[x] = [];
+    for (let y = 0; y < ncel; y++) {
       laberinto[x][y] = 0;
     }
   }
@@ -37,6 +45,29 @@ function setup() {
     }
   }
   
+  for(let x=0; x<ncel; x+=1){
+    for(let y=0; y<ncel; y+=1){
+      if(x==0 || x==49){
+        laberinto[x][y] = 0;
+      }
+      if(y==0 || y==49){
+        laberinto[x][y] = 0;
+      }
+    }
+  
+  }
+
+
+
+  // Inicializa la posición del jugador en la parte inferior y centrada
+  posx = int(ncel / 2);
+  posy = ncel - 2;
+  
+  laberinto[posx][posy] = 1;
+  
+  
+  camino()
+  
 }
 
 
@@ -46,39 +77,103 @@ function draw() {
   for(let x=0; x<ncel; x++){
     for(let y=0; y<ncel; y++){
       if(laberinto[x][y]==0){
-        fill(0);
+        fill(42,71,71);
       }else if(laberinto[x][y]==1){
         fill(255,243,221);
       }
       rect(x*t, y*t, t, t);
     }
   }
+
+  
+  //ganaste meta
+  
+  fill(255,75,61);
+  rect(metax*t,metay*t,t,t);
+  
+  if (posx==metax && posy==metay) {
+    textSize(70);
+    textAlign(CENTER, CENTER);
+    text("¡You Win!",tcanvas/2,tcanvas/2);
+    move=false;
+  }
   
   //player
   fill(255,75,61);
-  rect(posx * t, posy * t, t, t);
+  ellipse(posx * t + (t/2), posy * t + (t/2), t, t);
+  
+  //contador
+  textAlign(CENTER, CENTER);
+  textSize(50);
+  text(timer, width/2, height/1.1);
+  
+  if (frameCount % 60 == 0 && timer > 0 && move===true) {
+    timer --;
+  }
+  if (timer == 0) {
+    text("GAME OVER", width/2, height*0.7);
+  }
 }
 
 
 function keyPressed(){
-  if((key === 'a' || key === 'A' || keyCode == LEFT_ARROW) && posx > 0){
+  if((key === 'a' || key === 'A' || keyCode == LEFT_ARROW) && posx > 0 && move===true){
     if(laberinto[posx-1][posy] != 0){
       posx -= 1;
     }
   }
-  if((key === 'd' || key === 'D' || keyCode == RIGHT_ARROW) && posx < tcanvas-t){
+  if((key === 'd' || key === 'D' || keyCode == RIGHT_ARROW) && posx < tcanvas-t && move===true){
     if(laberinto[posx+1][posy] != 0){
       posx += 1;
     }
   }
-  if((key === 'w' || key === 'W' || keyCode == UP_ARROW) && posy > 0){
+  if((key === 'w' || key === 'W' || keyCode == UP_ARROW) && posy > 0 && move===true){
     if(laberinto[posx][posy-1] != 0){
       posy -= 1;
     }
   }
-  if((key === 's' || key === 'S' || keyCode == DOWN_ARROW) && posy < tcanvas-t){
+  if((key === 's' || key === 'S' || keyCode == DOWN_ARROW) && posy < tcanvas-t && move===true){
     if(laberinto[posx][posy+1] != 0){
       posy += 1;
     }
   }
 }
+
+
+function camino(){
+
+  let yrn=false;
+  let vix = posx;
+  let viy = posy;
+  let n = 0;
+  let numero_aleatorio;
+  
+  while(viy>0)
+    {
+      viy--;
+      numero_aleatorio=floor(random(-1, 2));
+      
+      for(let n=0; n<ncel; n++){
+        if(yrn=false)
+        {
+          if(laberinto[vix+n][viy]===0){
+            yrn=true;
+          } 
+        }
+      }
+      if(yrn===false ){
+        if((laberinto[vix-1][viy] || laberinto[vix+1][viy]) !=0){
+        laberinto[vix+numero_aleatorio][viy]=1;
+        }
+        else{
+          numero_aleatorio=0;
+          laberinto[vix+numero_aleatorio][viy]=1;
+        }
+      }
+      yrn=true;
+      vix = vix+numero_aleatorio;
+    }
+  metax=vix;
+  metay=viy;
+}
+
