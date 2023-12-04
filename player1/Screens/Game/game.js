@@ -440,8 +440,6 @@ cambiarPagina() {
   window.location.href = '../Screens/Congrats-screen/p5.html';
 }
 
-}
-
 // socket.on('input', (input) => {
 //   console.log(input);
 //   switch (parseInt(input.key)) {
@@ -510,3 +508,5 @@ cambiarPagina() {
 //     break;
 //   }
 // })
+
+}

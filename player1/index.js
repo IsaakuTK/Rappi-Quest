@@ -1,11 +1,13 @@
 // Importar las pantallas
 import { Takephoto } from './Screens/Takephoto/Takephoto.js';
 import { Game } from './Screens/Game/game.js';
+import { MainMenu } from './Screens/main-menu/menu-sketch.js';
+
 
 const app = (p5) => {
    
 
-  let currentScreen = 'game';
+  let currentScreen = 'takephoto';
   let currentScreenInstance;
   let socket;
 
@@ -17,7 +19,11 @@ const app = (p5) => {
       currentScreenInstance = new Takephoto(p5, changeScreen);
     } 
     else if (currentScreen === 'game') {
-      currentScreenInstance = new Game(p5, changeScreen);
+      currentScreenInstance = new Takephoto(p5, changeScreen);
+      currentScreenInstance.keyPressed();
+    }
+    else if (currentScreen === 'main_menu') {
+      currentScreenInstance = new   (p5, changeScreen);
       currentScreenInstance.keyPressed();
     }
   };
