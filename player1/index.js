@@ -3,9 +3,8 @@ import { Takephoto } from './Screens/Takephoto/Takephoto.js';
 import { Game } from './Screens/Game/game.js';
 
 const app = (p5) => {
-   
 
-  let currentScreen = 'game';
+  let currentScreen = 'takephoto';
   let currentScreenInstance;
   let socket;
 
@@ -24,7 +23,7 @@ const app = (p5) => {
 
   p5.setup = () => {
     socket = io.connect('http://localhost:5500/', {path: '/real-time'});
-    changeScreen('game');
+    changeScreen('takephoto');
 
     // socket.on('logIn', () => {
     //   changeScreen('main');
@@ -51,10 +50,13 @@ const app = (p5) => {
   p5.draw = () => {
     currentScreenInstance.draw();
 
+    if(currentScreen === 'game'){
+      p5.keyPressed = () => {
+        currentScreenInstance.keyPressed();
+      }
+    }
   };
-  p5.keyPressed = () => {
-    currentScreenInstance.keyPressed();
-  }
+  
 
 };
 

@@ -1,5 +1,6 @@
 // import { SerialPort } from 'serialport'
 // import { ReadlineParser } from 'serialport'
+import { createUserDB, db } from "./firebase.js"
 import express from 'express';
 import cors from 'cors'
 import { Server } from 'socket.io';
@@ -47,6 +48,22 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
     console.log('Usuario conectado');
 
+    socket.on('createUserDB', async (nuevoUsuario) => {
+      await createUserDB(nuevoUsuario)
+      .then((usuarioCreado) => {
+        if (usuarioCreado) {
+          console.log('Usuario creado con éxito:', usuarioCreado);
+        } else {
+          console.log('Error al crear el usuario.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al intentar crear el usuario:', error);
+      });
+
+      io.emit('createUserDB', nuevoUsuario);
+    }); 
+
     socket.on('bullet1', (data) => {
         io.emit('bullet1', data);
       }); 
@@ -79,6 +96,10 @@ io.on('connection', (socket) => {
         io.emit('tap2', tap);
       });
 
+      socket.on('createUserDB', (tap) => {
+        io.emit('tap2', tap);
+      });
+
     socket.on('disconnected' , () => {
         console.log('un cliente se ha desconectado');
     });
@@ -94,4 +115,11 @@ io.on('connection', (socket) => {
     //   ports => ports.forEach(port => console.log(port.path)), //COM3
     //   err => console.log(err)
     // )
+    
+    
+
+  
+
 });
+
+

@@ -1,8 +1,10 @@
 export class Takephoto {
+  
   constructor(p5, changeScreenCallback) {
     this.p5 = p5;
     this.FRAME = 200;
     this.nameInput = this.p5.createInput();
+    this.emailInput = this.p5.createInput();
     this.changeScreen = changeScreenCallback;
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
@@ -81,15 +83,15 @@ createElements() {
   this.nameInput.attribute("placeholder", "Your Name");
   this.nameInput.class("inputField");
 
-  let emailInput = this.p5.createInput();
-  emailInput.attribute("placeholder", "Your Email");
-  emailInput.class("inputField");
+
+  this.emailInput.attribute("placeholder", "Your Email");
+  this.emailInput.class("inputField");
 
   // Crear contenedor para los campos de entrada
   let inputContainer = this.p5.createDiv("");
   inputContainer.class("input-container");
   inputContainer.child(this.nameInput);
-  inputContainer.child(emailInput);
+  inputContainer.child(this.emailInput);
   
   //photoDiv.child(p5Canvas);
 
@@ -124,14 +126,20 @@ createElements() {
 
 moveMaze = async () => {
   // Get the value from the nameInput
+
   const playerName = this.nameInput.value();
+  const playerEmail = this.emailInput.value();
 
   // Check if the playerName is not empty before proceeding
-  if (playerName.trim() !== "") {
-    //await createUserDB(playerName);
-    // Add code here to navigate to the next screen or perform other actions
+  if (playerName.trim() !== "" && playerEmail.trim() !== "") {
+    const nuevoUsuario = {
+      nombre: playerName,
+      correo: playerEmail,
+      score: 0,
+    };
+    this.socket.emit('createUserDB', nuevoUsuario)
   } else {
-    alert("Please enter your name before proceeding.");
+    alert("Please enter your name and email before proceeding.");
   }
 };
 

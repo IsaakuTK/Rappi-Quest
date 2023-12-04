@@ -1,23 +1,16 @@
+import {firebaseConfig} from "./firebaseConfig.js"
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, setDoc, doc, addDoc, updateDoc, getDocs, query, orderBy } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDirmSw1ZPQIdi6WH8DQYDUjZR06axEfxY",
-  authDomain: "bop-it-ea393.firebaseapp.com",
-  projectId: "bop-it-ea393",
-  storageBucket: "bop-it-ea393.appspot.com",
-  messagingSenderId: "826106732628",
-  appId: "1:826106732628:web:08c00540ff046616b84dc1"
-};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 
-const createUserDB = async (user) => {
+export const createUserDB = async (user) => {
     try {
       // Referencia a la colección 'users'
       const usersRef = collection(db, "users");
@@ -41,7 +34,7 @@ const createUserDB = async (user) => {
     }
 };
   
-const EditUserDB = async (user) => {
+export const EditUserDB = async (user) => {
     try {
     const userRef = doc(db, "users", user.id); 
     await updateDoc(userRef, user); // Actualiza el documento con los nuevos datos
@@ -54,7 +47,7 @@ const EditUserDB = async (user) => {
     }
 };
 
-const getUsersDB = async () => {
+export const getUsersDB = async () => {
     try {
       // Crear una consulta para ordenar los usuarios por 'score' de mayor a menor
       const q = query(collection(db, "users"), orderBy("score", "desc"));
@@ -74,9 +67,3 @@ const getUsersDB = async () => {
     }
 };
 
-module.exports.db = db;
-module.exports = {
-    createUserDB,
-    EditUserDB,
-    getUsersDB,
-};
