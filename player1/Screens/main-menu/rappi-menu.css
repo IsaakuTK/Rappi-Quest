@@ -1,0 +1,47 @@
+body {
+    background: linear-gradient(#FE2627, #FE8E57);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    background-color: #fff;
+    color: #002046bf;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: bolder;
+    margin-top: 10px;
+    width: 258px;
+    height: 49px;
+    border-radius: 40px;
+    border: none; 
+    outline: none;
+    cursor: pointer; 
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #002046; 
+    color: #fff; 
+}
+
+button:active {
+    transform: scale(0.95);
+}
