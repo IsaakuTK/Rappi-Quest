@@ -10,6 +10,9 @@ export class MainMenu {
      this.p5.noCanvas();
      this.setupElements();
   }
+  draw(){
+
+  }
  
   setupElements() {
      let body = this.p5.select('body');
@@ -33,9 +36,9 @@ export class MainMenu {
      menuDiv.parent(body);
  
      let startButton = this.p5.createButton('Start');
-     startButton.mousePressed(this.moveMaze)
+     startButton.mousePressed(() => this.moveMaze());
      this.applyButtonStyles(startButton);
-     startButton.parent(menuDiv);
+     startButton.parent(menuDiv);     
  
      let playersScoreButton = this.p5.createButton('Players Score');
      this.applyButtonStyles(playersScoreButton);
@@ -76,11 +79,25 @@ export class MainMenu {
      });
  
      button.mousePressed(() => {
-       button.style('transform', 'scale(0.95)');
-     });
+      this.moveMaze();
+      button.style('transform', 'scale(0.95)');
+  });
+  
   }
+  mouseOverButton = () => {
+   console.log('Mouse is over the button');
+};
+
+mouseOutButton = () => {
+   console.log('Mouse is out of the button');
+};
+
+mousePressedButton = () => {
+   console.log('Button is pressed');
+};
  
   moveMaze = async () => {
-     this.socket.emit('takephoto')
+      console.log("holi")
+      this.socket.emit('takephoto')
   };
  }

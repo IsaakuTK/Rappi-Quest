@@ -4,71 +4,42 @@ export class Takephoto {
     this.FRAME = 200;
     this.nameInput = this.p5.createInput();
     this.emailInput = this.p5.createInput();
+    this.nextScreen = this.p5.createButton("Next");
+    this.backButton = this.p5.createButton("");
+    this.button1 = this.p5.createImg("./Screens/imgs/cheems1.webp", "Button 1");
+    this.button2 = this.p5.createImg("./Screens/imgs/cheems2.webp", "Button 2");
+    this.button3 = this.p5.createImg("./Screens/imgs/cheems3.jpg", "Button 3");
     this.changeScreen = changeScreenCallback;
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
     this.p5.setup = () => {
-      this.p5.createCanvas(this.FRAME, this.FRAME);
-      document.body.style.backgroundColor = '#fff3dd';
+      this.setup();
     };
 
-    // Llamada a la función draw para manejar el dibujo
     this.p5.draw = () => {
-      // Puedes agregar lógica de dibujo aquí si es necesario
+      this.draw();
     };
 
     this.createElements();
-    this.photoDiv = document.querySelector(".photo");
-    this.canvasCreation(this.photoDiv);
-
-    this.usePhoto = (video = undefined) => {
-      if (video == undefined) {
-        return;
-      }
-
-      let nuevaImg = video.get();
-      nuevaImg.resize(this.FRAME, this.FRAME);
-      this.p5.image(nuevaImg, 0, 0);
-      video.hide();
-      let pCanvas = document.querySelector(".p5Canvas");
-      pCanvas.classList.remove("hidden");
-      console.log(video);
-    };
   }
 
-  canvasCreation(container) {
-    // Creamos el canvas
-    this.p5.createCanvas(this.FRAME, this.FRAME);
-  
-    // Seleccionamos el canvas
-    let pCanvas = this.p5.select(".p5Canvas");
-  
-    // Establecemos estilos usando funciones de p5.js
-    pCanvas.style("margin", "auto 0");
-    pCanvas.hide(); // Utilizamos la función hide() para ocultar el canvas
-    container.child(pCanvas.elt); // Agregamos el canvas al contenedor
+  setup() {
+    this.p5.noCanvas();
+    this.p5.background(255, 243, 221);
+    this.p5.noLoop();
   }
-  
 
   draw() {
-    // Puedes agregar lógica de dibujo aquí si es necesario
-  }
-
-  backMain() {
-    window.location.href = "../main-menu/main-menu.html";
   }
 
   createElements() {
-    let backButton = this.p5.createButton("");
-    backButton.style("background-color", "#294464");
-    backButton.style("border-radius", "30px");
-    backButton.style("width", "70px");
-    backButton.mousePressed(this.backMain);
-
+    this.backButton.style("background-color", "#294464");
+    this.backButton.style("border-radius", "30px");
+    this.backButton.style("width", "70px");
     // Crear botón de regresar
     let backImage = this.p5.createImg("./Screens/imgs/Frame.png", "back");
     backImage.size(30, 30);
-    backButton.child(backImage);
+    this.backButton.child(backImage);
 
     // Crear elementos del encabezado
     let header = this.p5.createDiv("");
@@ -82,24 +53,39 @@ export class Takephoto {
     let title = this.p5.createElement("h1", "Photo");
     let number = this.p5.createElement(
       "p",
-      "Take a photo to identify yourself in the competition."
+      "Choose your favorite profile photo"
     );
 
-    // Crear elemento de imagen con captura de video
-    let photoDiv = this.p5.createDiv("");
-    photoDiv.style("transform", "scaleX(-1)");
-    photoDiv.style("display", "flex");
-    photoDiv.style("justify-content", "center");
+    // Crear contenedor para las imágenes de botones
+    let buttonContainer = this.p5.createDiv("");
+    buttonContainer.style("display", "flex");
+    buttonContainer.style("justify-content", "space-around");
+    buttonContainer.style("margin-top", "100px");
+    buttonContainer.style("margin-bottom", "100px");
 
-    let profileImage = this.p5.createCapture(this.p5.VIDEO);
+
+    // Crear imágenes de botones
+  
+
+    // Establecer estilos para las imágenes de botones
+    this.button1.style("width", "150px");
+    this.button1.style("height", "150px");
+    this.button2.style("width", "150px");
+    this.button2.style("height", "150px");
+    this.button3.style("width", "150px");
+    this.button3.style("height", "150px");
+
+    // Agregar botones al contenedor
+    buttonContainer.child(this.button1);
+    buttonContainer.child(this.button2);
+    buttonContainer.child(this.button3);
 
     // Agregar elementos al DOM
-    document.body.appendChild(backButton.elt);
+    document.body.appendChild(this.backButton.elt);
     document.body.appendChild(header.elt);
     header.child(title);
     header.child(number);
-    document.body.appendChild(photoDiv.elt);
-    photoDiv.child(profileImage);
+    document.body.appendChild(buttonContainer.elt);
 
     this.nameInput.attribute("placeholder", "Your Name");
     this.nameInput.style("width", "258px");
@@ -127,72 +113,56 @@ export class Takephoto {
     menuDiv.style("flex-direction", "column");
     menuDiv.style("align-items", "center");
 
-    let takePhoto = this.p5.createButton("Take a Photo");
-    takePhoto.style("background-color", "#ff4b3d");
-    takePhoto.style("color", "#fff");
-    takePhoto.style("font-family", "'Poppins', sans-serif");
-    takePhoto.style("font-size", "22px");
-    takePhoto.style("font-weight", "bolder");
-    takePhoto.style("margin-top", "10px");
-    takePhoto.style("width", "258px");
-    takePhoto.style("height", "49px");
-    takePhoto.style("border-radius", "40px");
-    takePhoto.style("border", "none");
-    takePhoto.style("outline", "none");
-    takePhoto.style("cursor", "pointer");
-    takePhoto.mousePressed((e) => {
-      this.usePhoto(profileImage);
-    });
+    menuDiv.child(inputContainer);
 
-    let nextScreen = this.p5.createButton("Next");
-    nextScreen.style("background-color", "#ff4b3d");
-    nextScreen.style("color", "#fff");
-    nextScreen.style("font-family", "'Poppins', sans-serif");
-    nextScreen.style("font-size", "22px");
-    nextScreen.style("font-weight", "bolder");
-    nextScreen.style("margin-top", "10px");
-    nextScreen.style("width", "258px");
-    nextScreen.style("height", "49px");
-    nextScreen.style("border-radius", "40px");
-    nextScreen.style("border", "none");
-    nextScreen.style("outline", "none");
-    nextScreen.style("cursor", "pointer");
-    nextScreen.mousePressed(this.moveMaze);
+    this.nextScreen.style("background-color", "#ff4b3d");
+    this.nextScreen.style("color", "#fff");
+    this.nextScreen.style("font-family", "'Poppins', sans-serif");
+    this.nextScreen.style("font-size", "22px");
+    this.nextScreen.style("font-weight", "bolder");
+    this.nextScreen.style("margin-top", "10px");
+    this.nextScreen.style("width", "258px");
+    this.nextScreen.style("height", "49px");
+    this.nextScreen.style("border-radius", "40px");
+    this.nextScreen.style("border", "none");
+    this.nextScreen.style("outline", "none");
+    this.nextScreen.style("cursor", "pointer");
+    this.nextScreen.mousePressed(this.moveMaze);
 
-    takePhoto.parent(menuDiv);
-    nextScreen.parent(menuDiv);
-
-    let logoDiv = this.p5.createDiv("");
-    logoDiv.style("display", "flex");
-    logoDiv.style("flex-direction", "column");
-    logoDiv.style("align-items", "center");
-    logoDiv.style("margin", "30px");
-
-    let logo = this.p5.createImg("./Screens/imgs/rappi-logo-2.png", "Rappi Logo");
-    logo.style("max-width", "100%");
-    logo.style("height", "auto");
-    logo.style("margin-bottom", "20px");
-
-    logo.parent(logoDiv);
+    this.nextScreen.parent(menuDiv);
+  }
+  clear() {
+    this.nameInput.hide();
+    this.emailInput.hide();
+    this.backButton.hide();
+    this.nextScreen.hide();
   }
 
   moveMaze = async () => {
-  // Get the value from the nameInput
-
-  const playerName = this.nameInput.value();
-  const playerEmail = this.emailInput.value();
-
-  // Check if the playerName is not empty before proceeding
-  if (playerName.trim() !== "" && playerEmail.trim() !== "") {
-    const nuevoUsuario = {
-      nombre: playerName,
-      correo: playerEmail,
-      score: 0,
-    };
-    this.socket.emit('createUserDB', nuevoUsuario)
-  } else {
-    alert("Please enter your name and email before proceeding.");
-  }
-};
-
+    // Get the value from the nameInput
+  
+    const playerName = this.nameInput.value();
+    const playerEmail = this.emailInput.value();
+  
+    // Check if the playerName is not empty before proceeding
+    if (playerName.trim() !== "" && playerEmail.trim() !== "") {
+      const nuevoUsuario = {
+        nombre: playerName,
+        correo: playerEmail,
+        score: 0,
+      };
+      this.socket.emit('createUserDB', nuevoUsuario)
+      this.socket.on('existUser', (exist)=>{
+        if(exist){
+          alert("The Name or Email is already taken");
+        }else{
+          this.socket.emit('Mainmenu')
+          console.log("yes"+this.changeScreen)
+        }
+      });
+    } else {
+      alert("Please enter your name and email before proceeding.");
+    }
+  };
+  
 }
