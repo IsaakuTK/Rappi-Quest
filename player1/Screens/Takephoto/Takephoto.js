@@ -7,7 +7,6 @@ export class Takephoto {
     this.changeScreen = changeScreenCallback;
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
-    // Llamada a la función setup para configurar el canvas
     this.p5.setup = () => {
       this.p5.createCanvas(this.FRAME, this.FRAME);
       document.body.style.backgroundColor = '#fff3dd';
