@@ -71,7 +71,6 @@ export class Game {
 
     this.setup();
     this.camino();
-    this.shootingboton();
     this.draw();
   }
 
@@ -227,6 +226,8 @@ this.socket.emit('position2', this.position);
   }
 
 
+  this.shootingboton();
+  
   //enemy
   this.p5.fill(175, 122, 197 );
   this.p5.ellipse(this.enemypos.posx * this.t + (this.t/2), this.enemypos.posy * this.t + (this.t/2), this.t, this.t);
