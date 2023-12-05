@@ -432,13 +432,12 @@ camino(){
   this.metay=viy;
 }
 
-
-
-
-
-cambiarPagina() {
-  window.location.href = '../Screens/Congrats-screen/p5.html';
+cambiarPagina(){
+  this.socket.emit('congratulations')
 }
+
+
+
 
 // socket.on('input', (input) => {
 //   console.log(input);

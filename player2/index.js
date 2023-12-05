@@ -34,7 +34,7 @@ const app = (p5) => {
 
   p5.setup = async () => {
     socket = io.connect('http://localhost:5500/', {path: '/real-time'});
-    changeScreen('takephoto');
+    changeScreen('game');
 
     socket.on('takephoto', () => {
       changeScreen('takephoto');

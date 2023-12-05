@@ -6,7 +6,7 @@ import {CupponScreen} from "./Screens/Congrats-screen/Congrats.js"
 
 const app = (p5) => {
 
-  let currentScreen = 'takephoto';
+  let currentScreen = 'game';
   let currentScreenInstance;
   let socket;
 
@@ -34,7 +34,7 @@ const app = (p5) => {
 
   p5.setup = async () => {
     socket = io.connect('http://localhost:5500/', {path: '/real-time'});
-    changeScreen('takephoto');
+    changeScreen('game');
 
     socket.on('takephoto', () => {
       changeScreen('takephoto');
