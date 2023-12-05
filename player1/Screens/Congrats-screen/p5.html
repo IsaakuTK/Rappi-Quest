@@ -26,18 +26,18 @@
         </div>
     </div>
     </div>
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js">
         // Espera a que el DOM esté completamente cargado
         document.addEventListener('DOMContentLoaded', function () {
             // Obtiene el botón por su id
             var saveCouponBtn = document.getElementById('saveCouponBtn');
-    
+
             // Agrega un evento de clic al botón
             saveCouponBtn.addEventListener('click', function () {
                 // Llama a la función cambiarPagina cuando se hace clic en el botón
                 cambiarPagina();
             });
-    
+
             // Define la función cambiarPagina
             function cambiarPagina() {
                 window.location.href = '../Cuppon-screen/p5.html';

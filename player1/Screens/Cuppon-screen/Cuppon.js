@@ -30,7 +30,7 @@ export class CupponScreen {
 
       let orangeCheck = document.createElement("img");
       orangeCheck.classList.add("orangecheck");
-      orangeCheck.src = "./IMAGES/Blue Check.jpg";
+      orangeCheck.src = "./IMAGES/Blue check.png";
       orangeCheck.alt = "";
 
       // Agregar elementos al DOM
@@ -62,4 +62,4 @@ export class CupponScreen {
         p.draw = () => {
         };
     }
-}
+} jpg
