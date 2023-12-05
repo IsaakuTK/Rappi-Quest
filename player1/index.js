@@ -3,6 +3,8 @@ import { Takephoto } from './Screens/Takephoto/Takephoto.js';
 import { Game } from './Screens/Game/game.js';
 import { MainMenu } from './Screens/main-menu/menu-sketch.js';
 import { LoadingScreen } from './Screens/loading/loading.js';
+import { PlayersScore } from './Screens/players-score/players-score-sketch.js';
+
 
 
 const app = (p5) => {
@@ -28,11 +30,14 @@ const app = (p5) => {
     else if (currentScreen === 'menu') {
       currentScreenInstance = new MainMenu(p5, changeScreen);
     }
+    else if (currentScreen === 'playerscore') {
+      currentScreenInstance = new PlayersScore(p5, changeScreen);
+    }
   };
 
   p5.setup = () => {
     socket = io.connect('http://localhost:5500/', {path: '/real-time'});
-    changeScreen('loading');
+    changeScreen('playerscore');
 
     // socket.on('logIn', () => {
     //   changeScreen('main');
