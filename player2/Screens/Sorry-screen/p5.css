@@ -1,0 +1,59 @@
+body{
+    background-color: #FF4B3D; 
+
+}
+.body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #FF4B3D;
+}
+
+.SORRY {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.rectangulo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 300px;
+    height: 450px;
+    background-color: #ffffff; /* Color del rectángulo blanco */
+    border: 2px solid #000000; /* Borde negro de 2 píxeles */
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px; /* Ajusta según sea necesario */
+}
+
+h1 {
+    font-size: 50px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.rectangulo2 {
+    border-radius: 50px;
+    width: 300px;
+    height: 25px;
+    border: 2px solid #000000; /* Borde negro de 2 píxeles */
+    text-align: center;
+    position: relative; /* Establecer posición relativa */
+    top: 20px; /* Ajustar posición vertical para superponer */
+}
+
+button {
+    font-size: 22px;
+    border-radius: 45px;
+    margin-top: 20px;
+    height: 50px;
+    width: 250px;
+    color: #FF4B3D;
+    background-color: azure;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+}

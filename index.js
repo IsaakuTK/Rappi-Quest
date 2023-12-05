@@ -51,17 +51,28 @@ io.on('connection', (socket) => {
     socket.on('createUserDB', async (nuevoUsuario) => {
       await createUserDB(nuevoUsuario)
       .then((usuarioCreado) => {
+        let existeuser = true;
         if (usuarioCreado) {
+          existeuser = false;
+          socket.emit('existUser', existeuser)
           console.log('Usuario creado con éxito:', usuarioCreado);
         } else {
+          existeuser = true;
+          socket.emit('existUser', existeuser)
           console.log('Error al crear el usuario.');
         }
       })
       .catch((error) => {
         console.error('Error al intentar crear el usuario:', error);
+        
       });
-
+      
       io.emit('createUserDB', nuevoUsuario);
+    }); 
+
+
+    socket.on('existUser', (data) => {
+      io.emit('existUser', data);
     }); 
 
     socket.on('bullet1', (data) => {
@@ -96,13 +107,12 @@ io.on('connection', (socket) => {
         io.emit('tap2', tap);
       });
 
-      socket.on('createUserDB', (tap) => {
-        io.emit('tap2', tap);
+      socket.on('tap2', (tap) => {
+      
       });
-
-    socket.on('disconnected' , () => {
+      socket.on('disconnected' , () => {
         console.log('un cliente se ha desconectado');
-    });
+      });
     //Arduino ////////////////////////////////////////////////////////////
 
     // parser.on('data', (data) => {

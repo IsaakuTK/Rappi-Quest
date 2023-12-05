@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://i0.wp.com/blog.soyrappi.com/wp-content/uploads/2022/05/unnamed.png?fit=512%2C512&ssl=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <title>Sorry</title>
+    <link rel="stylesheet" href="p5.css">
+</head>
+
+<body>
+    <div class="body">
+        <div class="SORRY">
+            <div class="rectangulo">
+                <h1>Sorry</h1>
+                <p>You completed the rappi quest but you didn't
+                    beat the best times, try again later when you can play again</p>
+                <img class="orangecheck" src="./IMAGES/X.jpg" alt="">
+            </div>
+            <button id="BacktoRappibtn">
+                Back to Rappi
+            </button>
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var BacktoRappibtn = document.getElementById('BacktoRappibtn');
+    
+            BacktoRappibtn.addEventListener('click', function () {
+                cambiarPagina();
+            });
+    
+            function cambiarPagina() {
+                window.location.href = '../main-menu/main-menu.html';
+            }
+        });
+        </script>
+    </div>
+    <script src="sketch.js"></script>
+</body>
+
+</html>

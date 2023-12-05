@@ -1,0 +1,87 @@
+body {
+  background-color: #fff3dd;
+}
+.back {
+  background-color: #294464;
+  border-radius: 30px;
+  width: 70px;
+}
+.back:hover {
+  background-color: #002046;
+  color: #fff;
+}
+
+.back:active {
+  transform: scale(0.95);
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fe3f23;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  /*font-weight: bold;*/
+}
+
+.photo {
+  color: #fe3f23;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+}
+
+.photo img {
+  width: 10%;
+  height: 10%;
+}
+
+.nombre {
+  display: flex;
+  flex: 0.7;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonPhoto {
+  background-color: #ff4b3d;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  font-weight: bolder;
+  margin-top: 10px;
+  width: 258px;
+  height: 49px;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buttonPhoto:hover {
+  border: 2px solid #ff4b3d;
+  background-color: #fff;
+  color: #ff4b3d;
+}
+
+.buttonPhoto:active {
+  transform: scale(0.95);
+}
+
+.logo-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+}

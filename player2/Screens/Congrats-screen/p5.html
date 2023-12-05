@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="icon" href="https://i0.wp.com/blog.soyrappi.com/wp-content/uploads/2022/05/unnamed.png?fit=512%2C512&ssl=1">
+    <title>Congratulations</title>
+    <link rel="stylesheet" href="p5.css">
+</head>
+
+<body>
+    <div class="body">
+        <div class="CONGRATS">
+            <div class="rectangulo">
+                <h1>Congratulations!</h1>
+                <p>You completed the rappi quest with a new time mark, you won the discount code for the restaurant in
+                    where you scanned the QR</p>
+                <img class="orangecheck" src="./IMAGES/Check.jpg" alt="">
+                <h3>7269-1a19-1be1-082n</h3>
+            </div>
+            <button id="saveCouponBtn">
+                Save Your Coupon
+            </button>
+        </div>
+    </div>
+    </div>
+    <script>
+        // Espera a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtiene el botón por su id
+            var saveCouponBtn = document.getElementById('saveCouponBtn');
+    
+            // Agrega un evento de clic al botón
+            saveCouponBtn.addEventListener('click', function () {
+                // Llama a la función cambiarPagina cuando se hace clic en el botón
+                cambiarPagina();
+            });
+    
+            // Define la función cambiarPagina
+            function cambiarPagina() {
+                window.location.href = '../Cuppon-screen/p5.html';
+            }
+        });
+    </script>
+</body>
+
+</html>
