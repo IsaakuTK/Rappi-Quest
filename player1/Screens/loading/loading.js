@@ -1,46 +1,49 @@
 export class LoadingScreen {
   constructor(p5, changeScreenCallback) {
-      this.p5 = p5;
-      this.createMainMenu();
-      this.changeScreen = changeScreenCallback;
-      this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
+    this.p5 = p5;
+    this.createMainMenu();
+    this.logo = this.p5.createImg("./Screens/imgs/waiting.gif", "Rappi Logo");
+    this.waitingText = this.p5.createP("Waiting for other player...");
+    this.changeScreen = changeScreenCallback;
+    this.socket = io.connect('http://localhost:5500/', { path: '/real-time' });
+    this.user1 = false;
   }
 
   createMainMenu() {
-      this.p5.noCanvas();
-      this.setupElements();
+    this.p5.noCanvas();
+    this.setupElements();
+  }
+
+  setup() {
+    this.socket.emit("user2", true);
   }
 
   draw() {
-      // Puedes agregar lógica de dibujo adicional si es necesario
+    if (this.user1 === true) {
+      console.log("swuim");
+    }
+    this.socket.on('user1', (res) => {
+      this.user1 = res;
+    });
   }
 
-  setupElements() {
-      let body = this.p5.select('body');
-      body.style('background', 'linear-gradient(#FE2627, #FE8E57)');
-      body.style('margin', '0');
-      body.style('padding', '0');
-      body.style('height', '100vh');
-      body.style('display', 'flex');
-      body.style('flex-direction', 'column');
-      body.style('justify-content', 'center');
-      body.style('align-items', 'center');
+ // ...
 
-      let logo = this.p5.createImg("./Screens/imgs/rappi-logo.png", "Rappi Logo");
-      logo.style('max-width', '100%');
-      logo.style('height', 'auto');
-      logo.style('margin-bottom', '20px');
-      logo.parent(body);
+setupElements() {
+  // Configurar estilos CSS para centrar elementos con flexbox y columnas
+  this.p5.select('body').style('display', 'flex');
+  this.p5.select('body').style('flex-direction', 'column');
+  this.p5.select('body').style('align-items', 'center');
+  this.p5.select('body').style('justify-content', 'center');
+}
 
-      // Agregar el texto "Waiting for other player"
-      let waitingText = this.p5.createP("Waiting for other player...");
-      waitingText.style('color', 'white');
-      waitingText.style('font-size', '32px');
-      waitingText.style('font-family', 'Poppins, sans-serif');
-      waitingText.parent(body);
+
+  clear() {
+    this.waitingText.hide();
+    this.logo.hide();
   }
 
   mousePressed() {
-      // Puedes agregar lógica de clic del mouse si es necesario
+    // Tu lógica para cuando se presiona el mouse
   }
 }

@@ -6,9 +6,18 @@ export class Takephoto {
     this.emailInput = this.p5.createInput();
     this.nextScreen = this.p5.createButton("Next");
     this.backButton = this.p5.createButton("");
+    this.title = this.p5.createElement("h1", "Photo");
+    this.number = this.p5.createElement(
+      "p",
+      "Choose your favorite profile photo"
+    );
     this.button1 = this.p5.createImg("./Screens/imgs/cheems1.webp", "Button 1");
     this.button2 = this.p5.createImg("./Screens/imgs/cheems2.webp", "Button 2");
     this.button3 = this.p5.createImg("./Screens/imgs/cheems3.jpg", "Button 3");
+    this.button1.mousePressed(() => this.toggleSelected(this.button1));
+    this.button2.mousePressed(() => this.toggleSelected(this.button2));
+    this.button3.mousePressed(() => this.toggleSelected(this.button3));
+    this.toggleSelected(this.button1); // Selección inicial
     this.changeScreen = changeScreenCallback;
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
@@ -50,11 +59,7 @@ export class Takephoto {
     header.style("font-family", "'Poppins', sans-serif");
     header.style("font-size", "15px");
 
-    let title = this.p5.createElement("h1", "Photo");
-    let number = this.p5.createElement(
-      "p",
-      "Choose your favorite profile photo"
-    );
+    
 
     // Crear contenedor para las imágenes de botones
     let buttonContainer = this.p5.createDiv("");
@@ -83,8 +88,8 @@ export class Takephoto {
     // Agregar elementos al DOM
     document.body.appendChild(this.backButton.elt);
     document.body.appendChild(header.elt);
-    header.child(title);
-    header.child(number);
+    header.child(this.title);
+    header.child(this.number);
     document.body.appendChild(buttonContainer.elt);
 
     this.nameInput.attribute("placeholder", "Your Name");
@@ -136,33 +141,60 @@ export class Takephoto {
     this.emailInput.hide();
     this.backButton.hide();
     this.nextScreen.hide();
+    this.button1.hide();
+    this.button2.hide();
+    this.button3.hide();
   }
 
-  moveMaze = async () => {
-    // Get the value from the nameInput
-  
-    const playerName = this.nameInput.value();
-    const playerEmail = this.emailInput.value();
-  
-    // Check if the playerName is not empty before proceeding
-    if (playerName.trim() !== "" && playerEmail.trim() !== "") {
-      const nuevoUsuario = {
-        nombre: playerName,
-        correo: playerEmail,
-        score: 0,
-      };
-      this.socket.emit('createUserDB', nuevoUsuario)
-      this.socket.on('existUser', (exist)=>{
-        if(exist){
-          alert("The Name or Email is already taken");
-        }else{
-          this.socket.emit('Mainmenu')
-          console.log("yes"+this.changeScreen)
-        }
-      });
-    } else {
-      alert("Please enter your name and email before proceeding.");
+  toggleSelected(button) {
+        this.button1.removeClass("selected");
+        this.button2.removeClass("selected");
+        this.button3.removeClass("selected");
+        button.addClass("selected");
     }
-  };
-  
+
+    moveMaze = async () => {
+        const playerName = this.nameInput.value();
+        const playerEmail = this.emailInput.value();
+
+        if (playerName.trim() !== "" && playerEmail.trim() !== "") {
+            const selectedImage = this.getSelectedImage();
+
+            if (selectedImage) {
+                const nuevoUsuario = {
+                    nombre: playerName,
+                    correo: playerEmail,
+                    score: 0,
+                    selectedImage: selectedImage,
+                };
+
+                this.socket.emit('createUserDB', nuevoUsuario);
+
+                this.socket.on('existUser', (exist) => {
+                    if (exist) {
+                        alert("The Name or Email is already taken");
+                    } else {
+                        this.socket.emit('Mainmenu');
+                        console.log("yes" + this.changeScreen);
+                    }
+                });
+            } else {
+                alert("Please choose an image before proceeding.");
+            }
+        } else {
+            alert("Please enter your name and email before proceeding.");
+        }
+    };
+
+    getSelectedImage() {
+        if (this.button1.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems1.webp";
+        } else if (this.button2.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems2.webp";
+        } else if (this.button3.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems3.jpg";
+        } else {
+            return null;
+        }
+    }
 }
