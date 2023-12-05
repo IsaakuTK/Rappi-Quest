@@ -1,152 +1,202 @@
 export class Takephoto {
-  
   constructor(p5, changeScreenCallback) {
     this.p5 = p5;
     this.FRAME = 200;
     this.nameInput = this.p5.createInput();
     this.emailInput = this.p5.createInput();
+    this.nextScreen = this.p5.createButton("Next");
+    this.backButton = this.p5.createButton("");
+    this.title = this.p5.createElement("h1", "Photo");
+    this.number = this.p5.createElement(
+      "p",
+      "Choose your favorite profile photo"
+    );
+    this.button1 = this.p5.createImg("./Screens/imgs/cheems1.webp", "Button 1");
+    this.button2 = this.p5.createImg("./Screens/imgs/cheems2.webp", "Button 2");
+    this.button3 = this.p5.createImg("./Screens/imgs/cheems3.jpg", "Button 3");
+    this.button1.mousePressed(() => this.toggleSelected(this.button1));
+    this.button2.mousePressed(() => this.toggleSelected(this.button2));
+    this.button3.mousePressed(() => this.toggleSelected(this.button3));
+    this.toggleSelected(this.button1); // Selección inicial
     this.changeScreen = changeScreenCallback;
     this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
 
+    this.p5.setup = () => {
+      this.setup();
+    };
+
+    this.p5.draw = () => {
+      this.draw();
+    };
+
     this.createElements();
-    this.photoDiv = document.querySelector(".photo");
-    this.canvasCreation(this.photoDiv);
-
-    this.usePhoto = (video = undefined) => {
-      if (video == undefined) {
-        return;
-      }
-
-      let nuevaImg = video.get();
-      nuevaImg.resize(this.FRAME, this.FRAME);
-      this.p5.image(nuevaImg, 0, 0);
-      video.hide();
-      let pCanvas = document.querySelector(".p5Canvas");
-      pCanvas.classList.remove("hidden");
-      console.log(video);
-    };
   }
 
-canvasCreation(container) {
-  this.p5.createCanvas(this.FRAME, this.FRAME); // Creamos el canvas
-  let pCanvas = document.querySelector(".p5Canvas"); // seleccionamos el canvas
-  pCanvas.classList.add("my-auto", "hidden");
-  container.appendChild(pCanvas); // agregamos el canvas a el contendor
-}
-
-draw() {
-}
-
-
-backMain() {
-  window.location.href = "../main-menu/main-menu.html";
-}
-
-
-
-createElements() {
-  let backButton = this.p5.createButton("");
-  backButton.class("back");
-  backButton.mousePressed(this.backMain);
-
-  // Crear botón de regresar
-  let backImage = this.p5.createImg("./Screens/imgs/Frame.png", "back");
-  backImage.size(30, 30);
-  backButton.child(backImage);
-
-  // Crear elementos del encabezado
-  let header = this.p5.createDiv("");
-  header.class("head");
-  let title = this.p5.createElement("h1", "Photo");
-  let number = this.p5.createElement(
-    "p",
-    "Take a photo to identify your self in the competition."
-  );
-
-  // Crear elemento de imagen con captura de video
-  let photoDiv = this.p5.createDiv("");
-
-  photoDiv.class("photo");
-  let profileImage = this.p5.createCapture(this.p5.VIDEO);
-
-  // Agregar elementos al DOM
-  document.body.appendChild(backButton.elt);
-  document.body.appendChild(header.elt);
-  header.child(title);
-  header.child(number);
-  document.body.appendChild(photoDiv.elt);
-  photoDiv.child(profileImage);
-
-  //
-
-  
-  this.nameInput.attribute("placeholder", "Your Name");
-  this.nameInput.class("inputField");
-
-
-  this.emailInput.attribute("placeholder", "Your Email");
-  this.emailInput.class("inputField");
-
-  // Crear contenedor para los campos de entrada
-  let inputContainer = this.p5.createDiv("");
-  inputContainer.class("input-container");
-  inputContainer.child(this.nameInput);
-  inputContainer.child(this.emailInput);
-  
-  //photoDiv.child(p5Canvas);
-
-  let menuDiv = this.p5.createDiv("");
-  menuDiv.class("menu-buttons");
-
-  let takePhoto = this.p5.createButton("Take a Photo");
-  takePhoto.mousePressed((e) => {
-    this.usePhoto(profileImage);
-  });
-  takePhoto.class("buttonPhoto");
-
-  let nextScreen = this.p5.createButton("Next");
-  nextScreen.mousePressed(this.moveMaze);
-  nextScreen.class("buttonPhoto");
-
-  //menuDiv.parent("body");
-  takePhoto.parent(menuDiv);  
-  nextScreen.parent(menuDiv);
-
-  let logoDiv = this.p5.createDiv("");
-  logoDiv.class("logo-div");
-
-  let logo = this.p5.createImg("./Screens/imgs/rappi-logo-2.png", "Rappi Logo");
-  logo.style("max-width", "100%");
-  logo.style("height", "auto");
-  logo.style("margin-bottom", "20px");
-
-  logo.parent(logoDiv);
-}
-
-
-moveMaze = async () => {
-  // Get the value from the nameInput
-
-  const playerName = this.nameInput.value();
-  const playerEmail = this.emailInput.value();
-
-  // Check if the playerName is not empty before proceeding
-  if (playerName.trim() !== "" && playerEmail.trim() !== "") {
-    const nuevoUsuario = {
-      nombre: playerName,
-      correo: playerEmail,
-      score: 0,
-    };
-    this.socket.emit('createUserDB', nuevoUsuario)
-
-    this.socket.on('existUser', (exist)=>{
-      if(exist){
-        alert("The Name or Email is already taken");
-      }
-    });
-
-  } else {
-    alert("Please enter your name and email before proceeding.");
+  setup() {
+    this.p5.noCanvas();
+    this.p5.background(255, 243, 221);
+    this.p5.noLoop();
   }
-};
+
+  draw() {
+  }
+
+  createElements() {
+    this.backButton.style("background-color", "#294464");
+    this.backButton.style("border-radius", "30px");
+    this.backButton.style("width", "70px");
+    // Crear botón de regresar
+    let backImage = this.p5.createImg("./Screens/imgs/Frame.png", "back");
+    backImage.size(30, 30);
+    this.backButton.child(backImage);
+
+    // Crear elementos del encabezado
+    let header = this.p5.createDiv("");
+    header.style("display", "flex");
+    header.style("flex-direction", "column");
+    header.style("align-items", "center");
+    header.style("color", "#fe3f23");
+    header.style("font-family", "'Poppins', sans-serif");
+    header.style("font-size", "15px");
+
+    
+
+    // Crear contenedor para las imágenes de botones
+    let buttonContainer = this.p5.createDiv("");
+    buttonContainer.style("display", "flex");
+    buttonContainer.style("justify-content", "space-around");
+    buttonContainer.style("margin-top", "100px");
+    buttonContainer.style("margin-bottom", "100px");
+
+
+    // Crear imágenes de botones
+  
+
+    // Establecer estilos para las imágenes de botones
+    this.button1.style("width", "300px");
+    this.button1.style("height", "300px");
+    this.button2.style("width", "300px");
+    this.button2.style("height", "300px");
+    this.button3.style("width", "300px");
+    this.button3.style("height", "300px");
+
+    // Agregar botones al contenedor
+    buttonContainer.child(this.button1);
+    buttonContainer.child(this.button2);
+    buttonContainer.child(this.button3);
+
+    // Agregar elementos al DOM
+    document.body.appendChild(this.backButton.elt);
+    document.body.appendChild(header.elt);
+    header.child(this.title);
+    header.child(this.number);
+    document.body.appendChild(buttonContainer.elt);
+
+    this.nameInput.attribute("placeholder", "Your Name");
+    this.nameInput.style("width", "258px");
+    this.nameInput.style("height", "49px");
+    this.nameInput.style("border-radius", "40px");
+    this.nameInput.style("text-align", "center");
+    this.nameInput.style("margin-bottom", "10px");
+
+    this.emailInput.attribute("placeholder", "Your Email");
+    this.emailInput.style("width", "258px");
+    this.emailInput.style("height", "49px");
+    this.emailInput.style("border-radius", "40px");
+    this.emailInput.style("text-align", "center");
+    this.emailInput.style("margin-bottom", "10px");
+
+    // Crear contenedor para los campos de entrada
+    let inputContainer = this.p5.createDiv("");
+    inputContainer.style("text-align", "center");
+    inputContainer.style("margin-top", "20px");
+    inputContainer.child(this.nameInput);
+    inputContainer.child(this.emailInput);
+
+    let menuDiv = this.p5.createDiv("");
+    menuDiv.style("display", "flex");
+    menuDiv.style("flex-direction", "column");
+    menuDiv.style("align-items", "center");
+
+    menuDiv.child(inputContainer);
+
+    this.nextScreen.style("background-color", "#ff4b3d");
+    this.nextScreen.style("color", "#fff");
+    this.nextScreen.style("font-family", "'Poppins', sans-serif");
+    this.nextScreen.style("font-size", "22px");
+    this.nextScreen.style("font-weight", "bolder");
+    this.nextScreen.style("margin-top", "10px");
+    this.nextScreen.style("width", "258px");
+    this.nextScreen.style("height", "49px");
+    this.nextScreen.style("border-radius", "40px");
+    this.nextScreen.style("border", "none");
+    this.nextScreen.style("outline", "none");
+    this.nextScreen.style("cursor", "pointer");
+    this.nextScreen.mousePressed(this.moveMaze);
+
+    this.nextScreen.parent(menuDiv);
+  }
+  clear() {
+    this.nameInput.hide();
+    this.emailInput.hide();
+    this.backButton.hide();
+    this.nextScreen.hide();
+    this.button1.hide();
+    this.button2.hide();
+    this.button3.hide();
+    this.title.hide();
+    this.number.hide();
+  }
+
+  toggleSelected(button) {
+        this.button1.removeClass("selected");
+        this.button2.removeClass("selected");
+        this.button3.removeClass("selected");
+        button.addClass("selected");
+    }
+
+    moveMaze = async () => {
+        const playerName = this.nameInput.value();
+        const playerEmail = this.emailInput.value();
+
+        if (playerName.trim() !== "" && playerEmail.trim() !== "") {
+            const selectedImage = this.getSelectedImage();
+
+            if (selectedImage) {
+                const nuevoUsuario = {
+                    nombre: playerName,
+                    correo: playerEmail,
+                    score: 0,
+                    selectedImage: selectedImage,
+                };
+
+                this.socket.emit('createUserDB', nuevoUsuario);
+
+                this.socket.on('existUser', (exist) => {
+                    if (exist) {
+                        alert("The Name or Email is already taken");
+                    } else {
+                        this.socket.emit('game');
+                        console.log("yes" + this.changeScreen);
+                    }
+                });
+            } else {
+                alert("Please choose an image before proceeding.");
+            }
+        } else {
+            alert("Please enter your name and email before proceeding.");
+        }
+    };
+
+    getSelectedImage() {
+        if (this.button1.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems1.webp";
+        } else if (this.button2.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems2.webp";
+        } else if (this.button3.elt.classList.contains("selected")) {
+            return "./Screens/imgs/cheems3.jpg";
+        } else {
+            return null;
+        }
+    }
 }

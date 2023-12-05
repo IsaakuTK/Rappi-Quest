@@ -107,9 +107,34 @@ io.on('connection', (socket) => {
         io.emit('tap2', tap);
       });
 
-      socket.on('tap2', (tap) => {
-      
+      socket.on('user1', (e) => {
+        io.emit('user1', e);
       });
+
+      socket.on('user2', (e) => {
+        io.emit('user2', e);
+      });
+
+      socket.on('menu', () => {
+      io.emit('menu')
+      });
+
+      socket.on('takephoto', () => {
+      io.emit('takephoto')
+      });
+
+      socket.on('game', () => {
+      io.emit('game')
+      });
+      
+      socket.on('loading', () => {
+      io.emit('loading')
+      });
+
+      socket.on('congratulations', () => {
+      io.emit('congratulations')
+      });
+
       socket.on('disconnected' , () => {
         console.log('un cliente se ha desconectado');
       });

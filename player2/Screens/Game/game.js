@@ -75,6 +75,9 @@ export class Game {
     this.draw();
   }
 
+clear() {
+  this.p5.clear();
+}
 
 setup() {
   this.p5.createCanvas(this.tcanvas, this.tcanvas+100);
@@ -297,8 +300,8 @@ this.socket.emit('position2', this.position);
 
     // Espera 5 segundos y luego cambia la pantalla
     setTimeout(() => {
-      cambiarPagina();
-    }, 5000);
+      this.cambiarPagina();
+    }, 3000);
   }
 
 
@@ -428,6 +431,10 @@ camino(){
     }
   this.metax=vix;
   this.metay=viy;
+}
+
+cambiarPagina(){
+  this.socket.emit('congratulations')
 }
 
 }
