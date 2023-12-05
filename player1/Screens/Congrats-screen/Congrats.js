@@ -1,10 +1,13 @@
-
 export class Congratulations {
   constructor() {
     // Configurar funciones de p5.js
     new p5(this.sketch.bind(this));
   }
-
+  setup() {
+    this.p5.noCanvas();
+    this.p5.background(255, 243, 221);
+    this.p5.noLoop();
+  }
   sketch(p) {
     p.setup = () => {
       // Crear div contenedor
@@ -65,16 +68,5 @@ export class Congratulations {
       bodyDiv.appendChild(congratsDiv);
       document.body.appendChild(bodyDiv);
     };
-
-    p.draw = () => {
-      // Código para el ciclo draw, si es necesario
-    };
-  }
-
-  cambiarPagina() {
-    window.location.href = '../Cuppon-screen/p5.html';
   }
 }
-
-// Inicializar la clase
-new Congratulations();
