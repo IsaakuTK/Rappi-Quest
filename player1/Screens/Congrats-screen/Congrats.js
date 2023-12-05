@@ -1,75 +1,38 @@
-// Importar la librería p5.js
-import p5 from 'p5';
+    function setup() {
+    noCanvas();
+    let saveButton = createButton('');
+    saveButton.class('save');
+    saveButton.mousePressed(cambiarPagina);
 
-// Definir una clase que utilizará p5.js
-class CongratsScreen {
-  constructor() {
-    // Inicializar variables necesarias
-    this.saveCouponBtn = null;
+    let saveImage = createImg('./IMAGES/Rectangle 5.jpg', 'save');
+    saveImage.child(saveImage);
 
-    // Configurar funciones de p5.js
-    new p5(this.sketch);
-  }
+    // Crear elementos del encabezado
+    let header = createDiv('');
+    header.class('head');
+    let title = createElement('h1', 'Congratulations');
 
-  // Función de configuración de p5.js
-  sketch(p) {
-    p.setup = () => {
-      // Crear elementos y configurar eventos cuando el DOM esté completamente cargado
-      p.createCanvas(window.innerWidth, window.innerHeight);
-      this.createHTML();
-    };
-  }
-
-  createHTML() {
-    // Crear div contenedor
-    let bodyDiv = document.createElement("div");
-    bodyDiv.classList.add("body");
-
-    // Crear div de felicitaciones
-    let congratsDiv = document.createElement("div");
-    congratsDiv.classList.add("CONGRATS");
-
-    // Crear div del rectángulo
-    let rectangleDiv = document.createElement("div");
-    rectangleDiv.classList.add("rectangulo");
-
-    // Crear elementos internos del rectángulo
-    let title = document.createElement("h1");
-    title.innerText = "Congratulations!";
+    // Crear elemento de imagen y número
     let paragraph = document.createElement("p");
     paragraph.innerText =
       "You completed the rappi quest with a new time mark, you won the discount code for the restaurant in where you scanned the QR";
-    let orangeCheck = document.createElement("img");
-    orangeCheck.classList.add("orangecheck");
-    orangeCheck.src = "./IMAGES/Check.jpg";
-    orangeCheck.alt = "";
+    // Crear cuppon
     let couponCode = document.createElement("h3");
     couponCode.innerText = "7269-1a19-1be1-082n";
 
     // Agregar elementos al DOM
-    rectangleDiv.appendChild(title);
-    rectangleDiv.appendChild(paragraph);
-    rectangleDiv.appendChild(orangeCheck);
-    rectangleDiv.appendChild(couponCode);
-    congratsDiv.appendChild(rectangleDiv);
-
-    // Crear botón
-    this.saveCouponBtn = document.createElement("button");
-    this.saveCouponBtn.id = "saveCouponBtn";
-    this.saveCouponBtn.innerText = "Save Your Coupon";
-    this.saveCouponBtn.addEventListener("click", () => this.changePage());
-
-    // Agregar elementos al DOM
-    congratsDiv.appendChild(this.saveCouponBtn);
-    bodyDiv.appendChild(congratsDiv);
-    document.body.appendChild(bodyDiv);
+    document.body.appendChild(backButton.elt);
+    document.body.appendChild(header.elt);
+    header.child(corona);
+    header.child(title);
+    document.body.appendChild(imageNumber.elt);
+    imageNumber.child(profileImage);
+    imageNumber.child(number);
   }
 
-  changePage() {
-    // Cambiar de página al hacer clic en el botón
+  function draw() {
+  }
+
+  function cambiarPagina() {
     window.location.href = '../Cuppon-screen/p5.html';
   }
-}
-
-// Inicializar la clase
-new CongratsScreen();
