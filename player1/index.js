@@ -4,6 +4,8 @@ import { Game } from './Screens/Game/game.js';
 import { MainMenu } from './Screens/main-menu/menu-sketch.js';
 import { LoadingScreen } from './Screens/loading/loading.js';
 import { PlayersScore } from './Screens/players-score/players-score-sketch.js';
+import { CupponScreen } from './Screens/Cuppon-screen/p5.js';
+import { Congratulations } from './Screens/Congrats-screen/cuppon.js';
 
 
 
@@ -33,11 +35,17 @@ const app = (p5) => {
     else if (currentScreen === 'playerscore') {
       currentScreenInstance = new PlayersScore(p5, changeScreen);
     }
+    else if (currentScreen === 'cuppon') {
+      currentScreenInstance = new CupponScreen(p5, changeScreen);
+    }
+    else if (currentScreen === 'congrats') {
+      currentScreenInstance = new Congratulations(p5, changeScreen);
+    }
   };
 
   p5.setup = () => {
     socket = io.connect('http://localhost:5500/', {path: '/real-time'});
-    changeScreen('loading');
+    changeScreen('congrats');
 
     // socket.on('logIn', () => {
     //   changeScreen('main');

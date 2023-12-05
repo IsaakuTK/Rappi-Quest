@@ -1,6 +1,12 @@
 export class PlayersScore {
     constructor(p5, changeScreenCallback) {
         this.p5 = p5;
+        this.backButton = this.p5.createButton('');
+        this.backImage = this.p5.createImg("./Screens/imgs/Frame.png", "back");
+        this.header = this.p5.createDiv('');
+        this.corona = this.p5.createImg('./Screens/imgs/corona.png', '');
+        this.imageNumber = this.p5.createDiv('');
+        this.scoreboard = this.p5.createDiv('');
         this.changeScreen = changeScreenCallback;
         this.socket = io.connect('http://localhost:5500', { path: '/real-time' });
         this.setupElements();
@@ -14,45 +20,38 @@ export class PlayersScore {
       this.p5.noLoop(); // No necesitamos loop de dibujo constante
   
       // Crear botón de retroceso
-      let backButton = this.p5.createButton('');
-      backButton.class('back');
-      backButton.mousePressed(this.cambiarPagina);
+      this.backButton.class('back');
   
-      let backImage = this.p5.createImg("./Screens/imgs/Frame.png", "back");
-      backImage.size(30, 30);
-      backButton.child(backImage);
+      this.backImage.size(30, 30);
+      this.backButton.child( this.backImage);
   
       // Crear elementos del encabezado
-      let header = this.p5.createDiv('');
-      header.class('head');
-      let corona = this.p5.createImg('./Screens/imgs/corona.png', '');
-      corona.id('corona');
-      corona.size(70, 50);
+      this.header.class('head');
+      this.corona.id('corona');
+      this.corona.size(70, 50);
       let title = this.p5.createElement('h1', 'Score');
   
       // Crear elemento de imagen y número
-      let imageNumber = this.p5.createDiv('');
-      imageNumber.class('imagen-numero');
-      let profileImage = this.p5.createImg('https://vivolabs.es/wp-content/uploads/2022/03/perfil-hombre-vivo.png', '');
+      this.imageNumber.class('imagen-numero');
+      let profileImage = this.p5.createImg('./Screens/imgs/userimg.png', '');
       profileImage.size(100, 100);
       profileImage.style('border-radius', '100px');
       profileImage.style('border', '4px solid #002046bf');
       let number = this.p5.createElement('h3', 'N0.8');
   
       // Crear contenedor de la puntuación
-      let scoreboard = this.p5.createDiv('');
-      scoreboard.class('Scoreboard');
+      this.scoreboard.class('Scoreboard');
   
       // Agregar elementos al DOM if the parent exists
       if (document.body) {
-          document.body.appendChild(backButton.elt);
-          document.body.appendChild(header.elt);
-          header.child(corona);
-          header.child(title);
-          document.body.appendChild(imageNumber.elt);
-          imageNumber.child(profileImage);
-          imageNumber.child(number);
-          document.body.appendChild(scoreboard.elt);
+          document.body.appendChild(this.backButton.elt);
+          document.body.appendChild(this.header.elt);
+          this.header.child(corona);
+          this.header.child(title);
+          document.body.appendChild(this.imageNumber.elt);
+          this.imageNumber.child(profileImage);
+          this.imageNumber.child(number);
+          document.body.appendChild(this.scoreboard.elt);
       } else {
           console.error("Document body not found!");
       }
@@ -62,12 +61,12 @@ export class PlayersScore {
         player1.id('player1');
         player1.size(700, 110);
         player1.child(this.p5.createElement('h1', '1').style('margin', '0 30px'));
-        let player1Img = this.p5.createImg('https://upload.wikimedia.org/wikipedia/commons/b/bf/Foto_Perfil_.jpg', '');
+        let player1Img = this.p5.createImg('./Screens/imgs/userimg.png', '');
         player1Img.size(100, 100);
         player1Img.style('border-radius', '100px');
         player1.child(player1Img);
-        player1.child(this.p5.createElement('h1', 'Juan David Peñagos').style('margin', '0 30px'));
-        player1.child(this.p5.createElement('h1', '0:20').style('margin', '0 30px'));
+        player1.child(this.p5.createElement('h1', 'Nombre').style('margin', '0 30px'));
+        player1.child(this.p5.createElement('h1', '0:00').style('margin', '0 30px'));
 
         // Crear contenedor para jugadores 2, 3, 4 y 5
         let cuadro = this.p5.createDiv('');
@@ -87,18 +86,19 @@ export class PlayersScore {
             playerImg.style('margin-right', '5%');
             player.child(playerImg);
             player.child(this.p5.createElement('h1', 'Nombre').class('nombre').style('display', 'flex').style('flex', '0.7'));
-            player.child(this.p5.createElement('h1', '0:21').class('timer'));
+            player.child(this.p5.createElement('h1', '0:00').class('timer'));
             cuadro.child(player);
         }
 
         // Agregar elementos al DOM
-        header.child(corona);
-        header.child(title);
-        imageNumber.child(profileImage);
-        imageNumber.child(number);
-        scoreboard.child(player1);
-        scoreboard.child(cuadro);
+        this.header.child(corona);
+        this.header.child(title);
+        this.imageNumber.child(profileImage);
+        this.imageNumber.child(number);
+        this.scoreboard.child(player1);
+        this.scoreboard.child(cuadro);
 
+        
         // Agregar estilos directamente al DOM usando createElement
         let style = this.p5.createElement('style');
         style.html(`
@@ -208,5 +208,13 @@ export class PlayersScore {
             }
         `);
         style.parent('body');
+        
+        
+
     }
+    clear() {
+      this.header.hide();
+      this.imageNumber.hide();
+      this.scoreboard.hide();
+    };
 }
