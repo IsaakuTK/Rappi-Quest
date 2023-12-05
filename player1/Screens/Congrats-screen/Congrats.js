@@ -1,9 +1,7 @@
-    function setup() {
+import p5 from 'p5';
+function setup() {
     noCanvas();
-    let saveButton = createButton('');
-    saveButton.class('save');
-    saveButton.mousePressed(cambiarPagina);
-
+    //cuadrado blanco
     let saveImage = createImg('./IMAGES/Rectangle 5.jpg', 'save');
     saveImage.child(saveImage);
 
@@ -20,14 +18,19 @@
     let couponCode = document.createElement("h3");
     couponCode.innerText = "7269-1a19-1be1-082n";
 
+    let saveButton = createButton('');
+    saveButton.class('save');
+    saveButton.mousePressed(cambiarPagina);
+
     // Agregar elementos al DOM
     document.body.appendChild(backButton.elt);
     document.body.appendChild(header.elt);
-    header.child(corona);
+    saveImage.child(header);
     header.child(title);
-    document.body.appendChild(imageNumber.elt);
-    imageNumber.child(profileImage);
-    imageNumber.child(number);
+    header.child(paragraph);
+    header.child(couponCode);
+    header.child(saveButton);
+
   }
 
   function draw() {
