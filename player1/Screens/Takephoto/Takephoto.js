@@ -68,12 +68,12 @@ export class Takephoto {
   
 
     // Establecer estilos para las imágenes de botones
-    this.button1.style("width", "150px");
-    this.button1.style("height", "150px");
-    this.button2.style("width", "150px");
-    this.button2.style("height", "150px");
-    this.button3.style("width", "150px");
-    this.button3.style("height", "150px");
+    this.button1.style("width", "300px");
+    this.button1.style("height", "300px");
+    this.button2.style("width", "300px");
+    this.button2.style("height", "300px");
+    this.button3.style("width", "300px");
+    this.button3.style("height", "300px");
 
     // Agregar botones al contenedor
     buttonContainer.child(this.button1);
